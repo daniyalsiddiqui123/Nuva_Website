@@ -6,12 +6,11 @@ const query = groq`*[_type == "product" && slug.current == $slug][0]{
   _id, name, price, price_before, image, details, length, chest, slug, inventory
 }`;
 
-// ✅ Explicit Next.js Page type
 interface PageProps {
   params: { slug: string };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: any) {
   const product = await client.fetch(query, { slug: params.slug });
 
   if (!product) {
