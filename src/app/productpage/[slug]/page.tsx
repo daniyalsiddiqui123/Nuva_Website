@@ -10,15 +10,17 @@ import BuyNow from "./BuyNow";
 import AddToCart from "./AddToCart";
 import { Product } from "../../../../sanity.types";
 
-
-
-type Params = { params: { slug: string } };
+interface ProductDetailProps {
+  params: {
+    slug: string;
+  };
+}
 
 const query = groq`*[_type == "product" && slug.current == $slug][0]{
   _id, name, price, price_before, image, details, length, chest, slug, inventory
 }`;
 
-export default function ProductDetail({ params }: Params) {
+export default function ProductDetail({ params }: ProductDetailProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [mainImage, setMainImage] = useState<string>("");
 
@@ -55,7 +57,9 @@ export default function ProductDetail({ params }: Params) {
                 src={urlFor(img).url()}
                 alt={`Thumbnail ${i + 1}`}
                 onMouseEnter={() => setMainImage(urlFor(img).url())}
-                onMouseLeave={() => setMainImage(urlFor(product.image![0]).url())}
+                onMouseLeave={() =>
+                  setMainImage(urlFor(product.image![0]).url())
+                }
                 className="w-20 h-20 rounded-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
               />
             ))}
@@ -64,7 +68,9 @@ export default function ProductDetail({ params }: Params) {
 
         <div className="flex flex-col justify-center gap-6">
           <h1 className="text-3xl font-bold">{product.name}</h1>
-          <p className="line-through text-gray-500">Rs. {product.price_before} PKR</p>
+          <p className="line-through text-gray-500">
+            Rs. {product.price_before} PKR
+          </p>
           <p className="text-xl font-semibold">Rs. {product.price} PKR</p>
 
           <div>
