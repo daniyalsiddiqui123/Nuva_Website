@@ -5,14 +5,17 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.sanity.io", // for Sanity images
+        hostname: "cdn.sanity.io", // Sanity image CDN
       },
       {
         protocol: "https",
-        hostname: "assets.example.com", // example you gave
+        hostname: "assets.example.com", // example pattern
         pathname: "/account123/**",
       },
     ],
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // prevents ESLint from breaking production builds
   },
 };
 

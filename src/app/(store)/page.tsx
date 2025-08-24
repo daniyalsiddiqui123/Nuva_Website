@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import Navbar from "@/app/(store)/components/navbar";
 import Footer from "@/app/(store)/components/footer";
@@ -10,17 +11,18 @@ import SubscribePage from "../subscribe/page";
 import { topThreeProductsQuery } from "@/sanity/lib/queries";
 
 type Product = {
-  available: any;
+  available: boolean;
   _id: string;
   name: string;
   slug: { current: string };
   price: number;
   price_before: number;
-  image: any;
+  image: { asset: { _ref: string } }[];
 };
 
 export default async function Home() {
   const products: Product[] = await client.fetch(topThreeProductsQuery);
+
   return (
     <div className="bg-black w-full min-h-screen flex flex-col">
       <Navbar />
@@ -53,10 +55,12 @@ export default async function Home() {
         {products.map((product) => {
           const productCard = (
             <div className="relative flex flex-col items-center text-center">
-              <img
+              <Image
                 src={urlFor(product.image[0]).url()}
                 alt={product.name}
-                className={`w-60 h-60 object-cover rounded-xl transition-transform duration-300 ${
+                width={240}
+                height={240}
+                className={`object-cover rounded-xl transition-transform duration-300 ${
                   product.available ? "hover:scale-105" : "opacity-50"
                 }`}
               />
@@ -72,9 +76,7 @@ export default async function Home() {
               <p className="line-through text-gray-500">
                 Rs. {product.price_before} PKR
               </p>
-              <p className="font-semibold text-white">
-                Rs. {product.price} PKR
-              </p>
+              <p className="font-semibold text-white">Rs. {product.price} PKR</p>
             </div>
           );
 
@@ -99,7 +101,7 @@ export default async function Home() {
           understands the styles, colors, and fits people truly love — and we
           use that knowledge to deliver standout pieces that blend retro vibes
           with modern edge. From bold graphic tees to eye-catching shorts, every
-          item at Nuva is chosen with purpose. We don't follow trends — we
+          item at Nuva is chosen with purpose. We don&apos;t follow trends — we
           revive them. Welcome to Nuva — where experience meets bold expression.
         </p>
       </div>
@@ -118,9 +120,7 @@ export default async function Home() {
         </p>
       </div>
 
-      <div className="">
-        <SubscribePage />
-      </div>
+      <SubscribePage />
 
       <Footer />
     </div>

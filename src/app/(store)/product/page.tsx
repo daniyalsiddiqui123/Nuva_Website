@@ -4,6 +4,13 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { topTenProductsQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
+import Image from "next/image";
+
+type SanityImage = {
+  asset: {
+    _ref: string;
+  };
+};
 
 type Product = {
   _id: string;
@@ -11,7 +18,7 @@ type Product = {
   slug: { current: string };
   price: number;
   price_before: number;
-  image: any;
+  image: SanityImage[];
   available: boolean;
 };
 
@@ -29,10 +36,12 @@ export default async function Product() {
         {products.map((product) => {
           const productCard = (
             <div className="relative flex flex-col items-center text-center">
-              <img
+              <Image
                 src={urlFor(product.image[0]).url()}
                 alt={product.name}
-                className={`w-60 h-60 object-cover rounded-xl transition duration-300 ease-in-out ${
+                width={240}
+                height={240}
+                className={`object-cover rounded-xl transition duration-300 ease-in-out ${
                   product.available ? "hover:scale-105" : "opacity-50"
                 }`}
               />

@@ -4,6 +4,11 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { topTwentyProductsQuery } from "@/sanity/lib/queries";
 import Link from "next/link";
+import Image from "next/image";
+
+type SanityImage = {
+  asset: { _ref: string };
+};
 
 type Product = {
   _id: string;
@@ -11,11 +16,13 @@ type Product = {
   slug: { current: string };
   price: number;
   price_before: number;
-  image: any;
+  image: SanityImage[];
+  available?: boolean;
 };
 
 export default async function Product() {
   const products: Product[] = await client.fetch(topTwentyProductsQuery);
+
   return (
     <div className="bg-black min-h-screen w-full flex flex-col">
       <Navbar />
@@ -24,10 +31,12 @@ export default async function Product() {
         {products.map((product) => (
           <Link key={product._id} href={`/productpage/${product.slug.current}`}>
             <div className="flex flex-col items-center text-center">
-              <img
+              <Image
                 src={urlFor(product.image[0]).url()}
                 alt={product.name}
-                className="w-60 h-60 object-cover rounded-xl transition-transform duration-300 hover:scale-105"
+                width={240}
+                height={240}
+                className="object-cover rounded-xl transition-transform duration-300 hover:scale-105"
               />
               <h2 className="text-lg sm:text-xl text-white font-bold mt-5">
                 {product.name}

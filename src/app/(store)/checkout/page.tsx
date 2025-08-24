@@ -9,8 +9,15 @@ import { urlFor } from "@/sanity/lib/image";
 const placeholderImg = "/placeholder.png";
 
 export default function CheckoutPage() {
+  type CartItem = {
+  _id: string;
+  name?: string;
+  price?: number;
+  quantity: number;
+  image?: any[];
+  };
   const router = useRouter();
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -83,7 +90,7 @@ export default function CheckoutPage() {
                       ? urlFor(item.image[0]).url()
                       : placeholderImg
                   }
-                  alt={item.name}
+                  alt={item.name ?? "Product Image"}
                   className="w-20 h-20 object-cover rounded-xl"
                   width={80}
                   height={80}
@@ -94,7 +101,7 @@ export default function CheckoutPage() {
                     {item.quantity} × PKR {item.price}
                   </p>
                 </div>
-                <p className="font-bold">PKR {item.price * item.quantity}</p>
+                <p className="font-bold">PKR {(item.price ?? 0) * item.quantity}</p>
               </div>
             ))}
           </div>
