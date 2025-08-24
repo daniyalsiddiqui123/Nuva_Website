@@ -62,7 +62,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <p>Chest: {product.chest}</p>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex-col sm:flex gap-4 mx-10 sm:mx-0">
             <AddToCart product={product} />
             <BuyNow />
           </div>
