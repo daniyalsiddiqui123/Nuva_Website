@@ -76,7 +76,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-black">
+    <div className="min-h-screen p-4 md:p-8 bg-black text-white">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center text-white">
         Cart
       </h1>
